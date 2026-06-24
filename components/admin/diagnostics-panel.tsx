@@ -1,0 +1,11 @@
+import type { DiagnosticResult } from "@/lib/diagnostics/types";
+
+const statusStyles = {
+  pass: "border-emerald-200 bg-emerald-50 text-emerald-900",
+  fail: "border-rose-200 bg-rose-50 text-rose-900",
+  skipped: "border-amber-200 bg-amber-50 text-amber-900",
+};
+
+export function DiagnosticsPanel({ configured, userId, sessionStatus, checks }: { configured: boolean; userId: string | null; sessionStatus: string; checks: DiagnosticResult[] }) {
+  return <><header className="mb-8"><p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700">Production validation</p><h1 className="mt-2 text-3xl font-semibold tracking-tight">Supabase Diagnostics</h1><p className="mt-2 max-w-2xl text-slate-600">Authenticated connectivity, profile, role, and first-slice persistence checks.</p></header><section className="grid gap-4 sm:grid-cols-3"><article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm text-slate-500">Supabase configured</p><strong className="mt-2 block text-2xl">{configured ? "Yes" : "No"}</strong></article><article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm text-slate-500">Auth session</p><strong className="mt-2 block text-2xl capitalize">{sessionStatus}</strong></article><article className="rounded-xl border border-slate-200 bg-white p-5"><p className="text-sm text-slate-500">Current user ID</p><code className="mt-2 block break-all text-xs text-slate-700">{userId ?? "No authenticated user"}</code></article></section><section className="mt-7"><h2 className="text-xl font-semibold">Server-side checks</h2><div className="mt-4 grid gap-4 md:grid-cols-2">{checks.map((check) => <article className={`rounded-xl border p-5 ${statusStyles[check.status]}`} key={check.key}><div className="flex items-start justify-between gap-3"><h3 className="font-semibold">{check.label}</h3><span className="rounded-full bg-white/60 px-2.5 py-1 text-xs font-semibold uppercase">{check.status}</span></div><p className="mt-3 text-sm leading-6">{check.detail}</p></article>)}</div></section><p className="mt-6 text-xs leading-5 text-slate-400">Checks run with the current cookie-backed user and RLS policies. They do not use the service-role key and do not write data.</p></>;
+}

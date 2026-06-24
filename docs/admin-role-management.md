@@ -24,3 +24,7 @@ Real role changes must not write directly from a browser client. Implement a ser
 6. returns the refreshed profile and effective permissions.
 
 The service-role client should be used only if the operation cannot be expressed safely through admin RLS or a security-definer database function.
+
+## First administrator
+
+Use `database/admin-bootstrap.sql` once an Auth user exists. Follow `docs/first-production-validation.md`; the script is idempotent for the admin role and includes verification queries.

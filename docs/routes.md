@@ -23,6 +23,7 @@
 | `/admin` | Admin-only access-control dashboard |
 | `/admin/users` | Mock user, role, status, and cohort management |
 | `/admin/users/[userId]` | Mock role assignment, cohort assignment, access, and audit detail |
+| `/admin/diagnostics` | Admin-only authenticated Supabase and persistence diagnostics |
 | `/login` | Cookie-backed Supabase sign-in with mock fallback |
 | `/logout` | Cookie-backed browser sign-out with mock fallback |
 | `/account` | Authenticated or mock current profile, roles, and permissions |

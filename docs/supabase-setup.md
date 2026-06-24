@@ -39,3 +39,5 @@ When public Supabase variables are missing:
 Adding environment variables does not automatically replace feature mocks.
 
 Notes, bookmarks, and lesson progress are the first adapter-backed slice. See `docs/persistence-slice.md` for its authenticated API boundary and local fallback behavior.
+
+For first-production admin and session validation, follow `docs/first-production-validation.md` and use the read-only `/admin/diagnostics` page.
