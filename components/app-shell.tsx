@@ -4,11 +4,15 @@ import type { ReactNode } from "react";
 const navigation = [
   ["Overview", "/"],
   ["Training", "/training"],
+  ["Study Center", "/study"],
   ["Certifications", "/certifications"],
   ["Fieldbook", "/reference"],
   ["Labs", "/labs"],
+  ["Instructor", "/instructor"],
+  ["Reviews", "/reviews"],
   ["People", "/people"],
   ["Reports", "/reports"],
+  ["Admin", "/admin"],
   ["Settings", "/settings"],
 ] as const;
 
@@ -31,7 +35,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div>
         <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
           <span className="text-sm text-slate-500">GovCon Procurement Agent Platform</span>
-          <div className="h-8 w-8 rounded-full bg-slate-200" aria-label="Account placeholder" />
+          <Link aria-label="Account" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600" href="/account">EB</Link>
         </header>
         <main className="mx-auto max-w-7xl p-6 lg:p-10">{children}</main>
       </div>

@@ -11,9 +11,11 @@
 
 ## Deferred from this scaffold
 
-- Authentication flows and middleware
-- Supabase client initialization
+- Sign-up, password recovery, MFA, and administrative identity workflows
+- Generated Supabase database types
 - Production authorization policies
 - Form handling and validation
 - Testing and deployment configuration
 - Tenant model and production row-level security policies
+
+Mock mode remains supported when Supabase environment variables are absent. Feature mocks should be replaced incrementally rather than through a single global switch.

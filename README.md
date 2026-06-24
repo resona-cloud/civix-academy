@@ -14,7 +14,7 @@ Internal training, certification, Fieldbook, and lab administration platform for
 
 Packages are intentionally not installed by this scaffold.
 
-1. Copy `.env.example` to `.env.local` and provide project credentials.
+1. Copy `.env.example` to `.env.local` and provide project credentials, or leave them blank to use mock mode.
 2. Run `npm install` when you are ready to install dependencies.
 3. Apply files in `database/migrations/` in filename order using the Supabase SQL editor or the team database workflow.
 4. Run `npm run dev`.
@@ -33,7 +33,7 @@ Packages are intentionally not installed by this scaffold.
 | `/settings` | Console settings |
 | `/api/health` | Basic health response |
 
-Dynamic editor placeholders are included beneath the primary content routes. See [docs/routes.md](docs/routes.md) for the full route map and [docs/architecture.md](docs/architecture.md) for intended boundaries.
+See [docs/routes.md](docs/routes.md) for routes, [docs/supabase-setup.md](docs/supabase-setup.md) for environment setup, [docs/migration-application-checklist.md](docs/migration-application-checklist.md) before applying SQL, [docs/database-types.md](docs/database-types.md) for generated types, and [docs/ssr-auth.md](docs/ssr-auth.md) for authentication.
 
 ## Current scope
 

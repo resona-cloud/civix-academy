@@ -1,3 +1,5 @@
+import type { AssessmentQuestion } from "@/lib/learning-engine/types";
+
 /** Reader DTO shaped for a nested Supabase select over the lesson content tables. */
 type LessonPageBlockBase = {
   id: string;
@@ -18,7 +20,7 @@ export type CalloutBlock = LessonPageBlockBase & {
 
 export type ActivityBlock = LessonPageBlockBase & {
   block_type: "activity";
-  content: { prompt: string; options: string[] };
+  content: { question: AssessmentQuestion };
 };
 
 export type DownloadBlock = LessonPageBlockBase & {

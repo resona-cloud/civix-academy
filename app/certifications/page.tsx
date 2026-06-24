@@ -1,6 +1,5 @@
-import { EmptyState } from "@/components/empty-state";
-import { PageHeader } from "@/components/page-header";
+import { CertificationCatalog } from "@/components/certifications/certification-catalog";
 
 export default function CertificationsPage() {
-  return <><PageHeader title="Certifications" description="Manage certification definitions, requirements, and awards." /><EmptyState title="No certifications loaded" /></>;
+  return <CertificationCatalog />;
 }

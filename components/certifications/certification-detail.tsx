@@ -1,0 +1,10 @@
+import Link from "next/link";
+import type { CertificationProgress, CertificationTrack } from "@/lib/certifications/types";
+import { CertificationProgressView } from "./certification-progress";
+
+export function CertificationDetail({ certification, progress }: { certification: CertificationTrack; progress: CertificationProgress }) {
+  const courses = certification.requirements.filter((item) => item.requirement_type === "course");
+  const assessments = certification.requirements.filter((item) => item.requirement_type === "assessment");
+
+  return <><Link className="text-sm font-medium text-sky-700" href="/certifications">&lt;- Back to certifications</Link><header className="mt-5 rounded-2xl bg-slate-950 p-7 text-white sm:p-10"><span className="rounded-full bg-sky-400/15 px-3 py-1 text-xs font-semibold text-sky-300">{certification.level.name}</span><h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{certification.title}</h1><p className="mt-4 max-w-3xl leading-7 text-slate-300">{certification.summary}</p><div className="mt-6 flex flex-wrap gap-5 text-sm text-slate-300"><span>{certification.passing_score}% passing score</span><span>{certification.validity_months} month validity</span><span>{certification.requirements.length} requirements</span></div></header><div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]"><CertificationProgressView certification={certification} progress={progress} /><aside className="rounded-xl border border-slate-200 bg-white p-6"><p className="text-xs font-semibold uppercase tracking-wider text-sky-700">Level definition</p><h2 className="mt-2 text-lg font-semibold">{certification.level.name}</h2><p className="mt-2 text-sm leading-6 text-slate-600">{certification.level.description}</p><div className="mt-6 border-t border-slate-200 pt-5"><h3 className="font-semibold">Requirement summary</h3><p className="mt-2 text-sm text-slate-600">{courses.length} required course{courses.length === 1 ? "" : "s"}</p><p className="mt-1 text-sm text-slate-600">{assessments.length} required assessment{assessments.length === 1 ? "" : "s"}</p></div></aside></div></>;
+}

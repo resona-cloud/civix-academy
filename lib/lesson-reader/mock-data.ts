@@ -1,4 +1,5 @@
 import type { LessonReaderData } from "./types";
+import { mockKnowledgeCheck } from "@/lib/learning-engine/mock-data";
 
 const ids = {
   course: "10000000-0000-4000-8000-000000000001",
@@ -138,7 +139,7 @@ export const mockLesson: LessonReaderData = {
           fieldbook_article_id: null,
           position: 2,
           block_type: "activity",
-          content: { prompt: "Which finding most directly informs the competition strategy?", options: ["Three capable small businesses serve the market", "The incumbent contract expires next quarter", "The program office prefers a specific format"] },
+          content: { question: mockKnowledgeCheck },
         },
       ],
     },

@@ -1,6 +1,16 @@
-import { EmptyState } from "@/components/empty-state";
-import { PageHeader } from "@/components/page-header";
+import { notFound } from "next/navigation";
+import { ScenarioWorkspace } from "@/components/agent-labs/scenario-workspace";
+import { mockLabProgress, mockLabScenarios } from "@/lib/agent-labs/mock-data";
+import { mockCompetencies, mockRubrics } from "@/lib/evaluation-engine/mock-data";
 
-export default function LabScenarioPage() {
-  return <><PageHeader title="Lab scenario" description="Lab scenario editor placeholder." /><EmptyState title="Lab scenario editor not implemented" /></>;
+type Props = { params: Promise<{ scenarioId: string }> };
+
+export default async function LabScenarioPage({ params }: Props) {
+  const { scenarioId } = await params;
+  const scenario = mockLabScenarios.find((item) => item.id === scenarioId);
+  const progress = mockLabProgress.find((item) => item.lab_scenario_id === scenarioId);
+  const rubric = scenario ? mockRubrics.find((item) => item.id === scenario.evaluation_rubric_id) : undefined;
+  if (!scenario || !progress || !rubric) notFound();
+
+  return <ScenarioWorkspace competencies={mockCompetencies} progress={progress} rubric={rubric} scenario={scenario} />;
 }

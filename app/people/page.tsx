@@ -1,6 +1,10 @@
-import { EmptyState } from "@/components/empty-state";
-import { PageHeader } from "@/components/page-header";
+import { PeopleDirectory } from "@/components/instructor-operations/people-directory";
+import { RoleGate } from "@/components/auth/role-gate";
+import { getCurrentProfile } from "@/lib/auth/session";
 
-export default function PeoplePage() {
-  return <><PageHeader title="People" description="Manage agent profiles, roles, enrollments, and access." /><EmptyState title="No people loaded" /></>;
+export const dynamic = "force-dynamic";
+
+export default async function PeoplePage() {
+  const user = await getCurrentProfile();
+  return <RoleGate roles={["admin", "instructor", "reviewer"]} user={user}><PeopleDirectory /></RoleGate>;
 }
