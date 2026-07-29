@@ -38,8 +38,8 @@ export function FieldbookLanding() {
     <>
       <section className="rounded-2xl bg-slate-950 px-6 py-10 text-white sm:px-10">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-400">Fieldbook</p>
-        <h1 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Procurement guidance for work in the field</h1>
-        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Search practical guides, review checklists, and refresh essential GovCon terminology.</p>
+        <h1 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Guidance for work in the field</h1>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">Search practical guides, review checklists, and refresh essential terminology.</p>
         <label className="mt-7 block max-w-2xl"><span className="sr-only">Search the Fieldbook</span><input className="w-full rounded-xl border border-slate-700 bg-white px-4 py-3 text-slate-950 outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30" onChange={(event) => setQuery(event.target.value)} placeholder="Search articles, categories, or tags" type="search" value={query} /></label>
       </section>
 

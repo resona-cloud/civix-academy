@@ -19,6 +19,6 @@ New Supabase users receive a `profiles` row and the `trainee` role through the `
 
 Application roles and permission mappings live under `lib/auth/`. UI guards improve presentation but are not a security boundary; database RLS and server authorization must enforce access.
 
-The current mock account is Elena Brooks with `admin`, `instructor`, and `reviewer` roles so the admin-only mock screens remain testable without Supabase configuration.
+The current mock account is Admin User with `admin` and `zone_manager` roles so the admin-only mock screens remain testable without Supabase configuration.
 
 Server helpers in `lib/auth/session.ts` expose `getCurrentSession`, `getCurrentProfile`, `getCurrentUserRoles`, `requireAuth`, and `requireRole`. Reusable `AuthGate`, `RoleGate`, and `PermissionNotice` components provide presentation-level route shells.

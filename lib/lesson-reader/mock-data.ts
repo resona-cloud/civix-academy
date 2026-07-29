@@ -19,13 +19,13 @@ const ids = {
 export const mockLesson: LessonReaderData = {
   course: {
     id: ids.course,
-    slug: "procurement-foundations",
-    title: "GovCon Procurement Foundations",
+    slug: "sample-course",
+    title: "Sample Course",
   },
   lesson: {
     id: ids.marketResearch,
     module_id: ids.moduleFoundations,
-    title: "Conducting Effective Market Research",
+    title: "Lesson 2",
     position: 2,
     estimated_minutes: 12,
   },
@@ -33,22 +33,22 @@ export const mockLesson: LessonReaderData = {
     {
       id: ids.moduleFoundations,
       course_id: ids.course,
-      title: "Foundations",
+      title: "Module 1",
       position: 1,
       lessons: [
-        { id: ids.lifecycle, module_id: ids.moduleFoundations, title: "The procurement lifecycle", position: 1, estimated_minutes: 8 },
-        { id: ids.marketResearch, module_id: ids.moduleFoundations, title: "Conducting market research", position: 2, estimated_minutes: 12 },
-        { id: ids.requirements, module_id: ids.moduleFoundations, title: "Defining requirements", position: 3, estimated_minutes: 10 },
+        { id: ids.lifecycle, module_id: ids.moduleFoundations, title: "Lesson 1", position: 1, estimated_minutes: 8 },
+        { id: ids.marketResearch, module_id: ids.moduleFoundations, title: "Lesson 2", position: 2, estimated_minutes: 12 },
+        { id: ids.requirements, module_id: ids.moduleFoundations, title: "Lesson 3", position: 3, estimated_minutes: 10 },
       ],
     },
     {
       id: ids.moduleExecution,
       course_id: ids.course,
-      title: "Execution",
+      title: "Module 2",
       position: 2,
       lessons: [
-        { id: ids.solicitation, module_id: ids.moduleExecution, title: "Building a solicitation", position: 1, estimated_minutes: 14 },
-        { id: ids.evaluation, module_id: ids.moduleExecution, title: "Evaluating responses", position: 2, estimated_minutes: 16 },
+        { id: ids.solicitation, module_id: ids.moduleExecution, title: "Lesson 4", position: 1, estimated_minutes: 14 },
+        { id: ids.evaluation, module_id: ids.moduleExecution, title: "Lesson 5", position: 2, estimated_minutes: 16 },
       ],
     },
   ],
@@ -57,7 +57,7 @@ export const mockLesson: LessonReaderData = {
       id: ids.purpose,
       lesson_id: ids.marketResearch,
       position: 1,
-      title: "Why market research matters",
+      title: "Page 1",
       content_blocks: [
         {
           id: "50000000-0000-4000-8000-000000000001",
@@ -91,7 +91,7 @@ export const mockLesson: LessonReaderData = {
       id: ids.sources,
       lesson_id: ids.marketResearch,
       position: 2,
-      title: "Build a balanced source set",
+      title: "Page 2",
       content_blocks: [
         {
           id: "50000000-0000-4000-8000-000000000003",
@@ -123,7 +123,7 @@ export const mockLesson: LessonReaderData = {
       id: ids.analysis,
       lesson_id: ids.marketResearch,
       position: 3,
-      title: "Turn findings into decisions",
+      title: "Page 3",
       content_blocks: [
         {
           id: "50000000-0000-4000-8000-000000000006",
@@ -147,7 +147,7 @@ export const mockLesson: LessonReaderData = {
       id: ids.document,
       lesson_id: ids.marketResearch,
       position: 4,
-      title: "Document the research record",
+      title: "Page 4",
       content_blocks: [
         {
           id: "50000000-0000-4000-8000-000000000008",

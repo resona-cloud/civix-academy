@@ -1,10 +1,10 @@
 import type { FieldbookArticle, FieldbookCategory, GlossaryTerm } from "./types";
 
 export const fieldbookCategories: readonly FieldbookCategory[] = [
-  "Acquisition Planning",
-  "Market Research",
-  "Solicitation",
-  "Evaluation",
+  "Category 1",
+  "Category 2",
+  "Category 3",
+  "Category 4",
 ];
 
 const articleIds = {
@@ -17,11 +17,11 @@ const articleIds = {
 export const fieldbookArticles: FieldbookArticle[] = [
   {
     id: articleIds.marketResearch,
-    slug: "market-research-quick-guide",
-    title: "Market Research Quick Guide",
-    summary: "A practical sequence for planning, conducting, and documenting defensible market research.",
-    category: "Market Research",
-    tags: ["market research", "sources", "documentation"],
+    slug: "fieldbook-guide-1",
+    title: "Fieldbook Guide 1",
+    summary: "A practical sequence for the first fieldbook guide.",
+    category: "Category 2",
+    tags: ["guide", "sources", "documentation"],
     status: "published",
     content_blocks: [
       {
@@ -58,11 +58,11 @@ export const fieldbookArticles: FieldbookArticle[] = [
   },
   {
     id: articleIds.acquisitionPlan,
-    slug: "acquisition-plan-review",
-    title: "Acquisition Plan Review Checklist",
-    summary: "Key questions for checking strategy alignment, competition, schedule, risk, and approvals.",
-    category: "Acquisition Planning",
-    tags: ["acquisition plan", "review", "risk"],
+    slug: "fieldbook-guide-2",
+    title: "Fieldbook Guide 2",
+    summary: "Key questions for the second fieldbook guide.",
+    category: "Category 1",
+    tags: ["checklist", "review", "risk"],
     status: "published",
     content_blocks: [
       {
@@ -85,11 +85,11 @@ export const fieldbookArticles: FieldbookArticle[] = [
   },
   {
     id: articleIds.evaluationFactors,
-    slug: "evaluation-factors-guide",
-    title: "Writing Useful Evaluation Factors",
-    summary: "Structure factors that are discriminating, measurable, and tied directly to acquisition risk.",
-    category: "Evaluation",
-    tags: ["evaluation", "factors", "source selection"],
+    slug: "fieldbook-guide-3",
+    title: "Fieldbook Guide 3",
+    summary: "Structure factors that are discriminating and measurable, for the third fieldbook guide.",
+    category: "Category 4",
+    tags: ["evaluation", "factors", "criteria"],
     status: "published",
     content_blocks: [
       {
@@ -112,11 +112,11 @@ export const fieldbookArticles: FieldbookArticle[] = [
   },
   {
     id: articleIds.solicitationReview,
-    slug: "solicitation-quality-review",
-    title: "Pre-Release Solicitation Review",
-    summary: "A concise quality-control pass for consistency across requirements, instructions, and evaluation criteria.",
-    category: "Solicitation",
-    tags: ["solicitation", "quality control", "review"],
+    slug: "fieldbook-guide-4",
+    title: "Fieldbook Guide 4",
+    summary: "A concise quality-control pass for the fourth fieldbook guide.",
+    category: "Category 3",
+    tags: ["quality control", "review"],
     status: "published",
     content_blocks: [
       {
@@ -152,10 +152,10 @@ export const relatedFieldbookArticleIds: Readonly<Record<string, readonly string
 };
 
 export const glossaryTerms: GlossaryTerm[] = [
-  { id: "63000000-0000-4000-8000-000000000001", term: "Acquisition plan", definition: "A documented strategy for fulfilling an agency need in a timely manner and at a reasonable cost.", source_url: null, status: "published" },
-  { id: "63000000-0000-4000-8000-000000000002", term: "Best value", definition: "The expected outcome of an acquisition that provides the greatest overall benefit in response to the requirement.", source_url: null, status: "published" },
-  { id: "63000000-0000-4000-8000-000000000003", term: "Market research", definition: "The process of collecting and analyzing information about capabilities within the market that could satisfy an agency need.", source_url: null, status: "published" },
-  { id: "63000000-0000-4000-8000-000000000004", term: "Price analysis", definition: "Evaluation of a proposed price without evaluating its separate cost elements and proposed profit.", source_url: null, status: "published" },
-  { id: "63000000-0000-4000-8000-000000000005", term: "Solicitation", definition: "A request for offers or quotations issued by the government for supplies or services.", source_url: null, status: "published" },
-  { id: "63000000-0000-4000-8000-000000000006", term: "Technical evaluation", definition: "Assessment of an offeror's proposed technical approach against the stated evaluation criteria.", source_url: null, status: "published" },
+  { id: "63000000-0000-4000-8000-000000000001", term: "Glossary Term 1", definition: "Placeholder definition for glossary term 1.", source_url: null, status: "published" },
+  { id: "63000000-0000-4000-8000-000000000002", term: "Glossary Term 2", definition: "Placeholder definition for glossary term 2.", source_url: null, status: "published" },
+  { id: "63000000-0000-4000-8000-000000000003", term: "Glossary Term 3", definition: "Placeholder definition for glossary term 3.", source_url: null, status: "published" },
+  { id: "63000000-0000-4000-8000-000000000004", term: "Glossary Term 4", definition: "Placeholder definition for glossary term 4.", source_url: null, status: "published" },
+  { id: "63000000-0000-4000-8000-000000000005", term: "Glossary Term 5", definition: "Placeholder definition for glossary term 5.", source_url: null, status: "published" },
+  { id: "63000000-0000-4000-8000-000000000006", term: "Glossary Term 6", definition: "Placeholder definition for glossary term 6.", source_url: null, status: "published" },
 ];

@@ -22,5 +22,5 @@ CIVIX Academy Console is an internal administration surface for training, certif
 - Training: courses, modules, lessons, enrollment, and progress
 - Certification: credential definitions, requirements, awards, and expiration
 - Fieldbook: searchable operational guides and job aids
-- Labs: procurement scenarios, submissions, evaluation, and scoring
+- Labs: scenarios, submissions, evaluation, and scoring
 - Administration: people, roles, reporting, and platform settings

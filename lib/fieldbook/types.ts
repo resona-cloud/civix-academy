@@ -1,8 +1,8 @@
 export type FieldbookCategory =
-  | "Acquisition Planning"
-  | "Market Research"
-  | "Solicitation"
-  | "Evaluation";
+  | "Category 1"
+  | "Category 2"
+  | "Category 3"
+  | "Category 4";
 
 type FieldbookBlockBase = {
   id: string;

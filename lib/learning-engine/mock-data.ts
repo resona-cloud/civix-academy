@@ -4,9 +4,9 @@ const assessmentId = "71000000-0000-4000-8000-000000000001";
 
 export const mockAssessment: Assessment = {
   id: assessmentId,
-  slug: "procurement-foundations-review",
-  title: "Procurement Foundations Quick Review",
-  description: "Seven question formats covering planning, market research, and evaluation fundamentals.",
+  slug: "quick-review-assessment",
+  title: "Quick Review Assessment",
+  description: "Seven question formats covering the course fundamentals.",
   status: "published",
   passing_score: 70,
   questions: [
@@ -132,59 +132,59 @@ export const mockKnowledgeCheck: AssessmentQuestion = {
 };
 
 export const mockFlashcards: Flashcard[] = [
-  { id: "72000000-0000-4000-8000-000000000001", category: "Acquisition Planning", front: "Acquisition plan", back: "The documented strategy for fulfilling an agency need in a timely manner and at a reasonable cost.", position: 1 },
-  { id: "72000000-0000-4000-8000-000000000002", category: "Market Research", front: "Market research", back: "Collecting and analyzing market information to determine capabilities and acquisition implications.", position: 2 },
-  { id: "72000000-0000-4000-8000-000000000003", category: "Market Research", front: "Sources sought notice", back: "A market research notice used to identify interested and capable sources; it is not a solicitation.", position: 3 },
-  { id: "72000000-0000-4000-8000-000000000004", category: "Solicitation", front: "Amendment", back: "A formal change to a solicitation issued before contract award.", position: 4 },
-  { id: "72000000-0000-4000-8000-000000000005", category: "Evaluation", front: "Strength", back: "An aspect of a proposal that has merit or exceeds specified requirements in a beneficial way.", position: 5 },
-  { id: "72000000-0000-4000-8000-000000000006", category: "Evaluation", front: "Deficiency", back: "A material failure to meet a requirement or a combination of significant weaknesses that increases risk to an unacceptable level.", position: 6 },
-  { id: "72000000-0000-4000-8000-000000000007", category: "Pricing", front: "Price analysis", back: "Evaluation of a proposed price without evaluating its separate cost elements and profit.", position: 7 },
-  { id: "72000000-0000-4000-8000-000000000008", category: "Pricing", front: "Cost realism", back: "Independent review of proposed cost elements to determine whether they are realistic for the work to be performed.", position: 8 },
+  { id: "72000000-0000-4000-8000-000000000001", category: "Category 1", front: "Term 1", back: "Placeholder definition for term 1.", position: 1 },
+  { id: "72000000-0000-4000-8000-000000000002", category: "Category 2", front: "Term 2", back: "Placeholder definition for term 2.", position: 2 },
+  { id: "72000000-0000-4000-8000-000000000003", category: "Category 2", front: "Term 3", back: "Placeholder definition for term 3.", position: 3 },
+  { id: "72000000-0000-4000-8000-000000000004", category: "Category 3", front: "Term 4", back: "Placeholder definition for term 4.", position: 4 },
+  { id: "72000000-0000-4000-8000-000000000005", category: "Category 4", front: "Term 5", back: "Placeholder definition for term 5.", position: 5 },
+  { id: "72000000-0000-4000-8000-000000000006", category: "Category 4", front: "Term 6", back: "Placeholder definition for term 6.", position: 6 },
+  { id: "72000000-0000-4000-8000-000000000007", category: "Category 5", front: "Term 7", back: "Placeholder definition for term 7.", position: 7 },
+  { id: "72000000-0000-4000-8000-000000000008", category: "Category 5", front: "Term 8", back: "Placeholder definition for term 8.", position: 8 },
 ];
 
 export const mockCourseProgress: CourseProgress = {
   user_id: "73000000-0000-4000-8000-000000000001",
   course_id: "10000000-0000-4000-8000-000000000001",
-  title: "GovCon Procurement Foundations",
+  title: "Sample Course",
   progress_percent: 58,
   modules: [
     {
       module_id: "20000000-0000-4000-8000-000000000001",
-      title: "Foundations",
+      title: "Module 1",
       progress_percent: 76,
       lessons: [
-        { lesson_id: "30000000-0000-4000-8000-000000000001", title: "The procurement lifecycle", status: "completed", progress_percent: 100 },
-        { lesson_id: "30000000-0000-4000-8000-000000000002", title: "Conducting market research", status: "in_progress", progress_percent: 75 },
-        { lesson_id: "30000000-0000-4000-8000-000000000003", title: "Defining requirements", status: "in_progress", progress_percent: 55 },
+        { lesson_id: "30000000-0000-4000-8000-000000000001", title: "Lesson 1", status: "completed", progress_percent: 100 },
+        { lesson_id: "30000000-0000-4000-8000-000000000002", title: "Lesson 2", status: "in_progress", progress_percent: 75 },
+        { lesson_id: "30000000-0000-4000-8000-000000000003", title: "Lesson 3", status: "in_progress", progress_percent: 55 },
       ],
     },
     {
       module_id: "20000000-0000-4000-8000-000000000002",
-      title: "Execution",
+      title: "Module 2",
       progress_percent: 30,
       lessons: [
-        { lesson_id: "30000000-0000-4000-8000-000000000004", title: "Building a solicitation", status: "in_progress", progress_percent: 60 },
-        { lesson_id: "30000000-0000-4000-8000-000000000005", title: "Evaluating responses", status: "not_started", progress_percent: 0 },
+        { lesson_id: "30000000-0000-4000-8000-000000000004", title: "Lesson 4", status: "in_progress", progress_percent: 60 },
+        { lesson_id: "30000000-0000-4000-8000-000000000005", title: "Lesson 5", status: "not_started", progress_percent: 0 },
       ],
     },
   ],
   assessments: [
-    { assessment_id: assessmentId, title: "Procurement Foundations Quick Review", status: "in_progress", score: null },
+    { assessment_id: assessmentId, title: "Quick Review Assessment", status: "in_progress", score: null },
     { assessment_id: "71000000-0000-4000-8000-000000000002", title: "Module 1 Checkpoint", status: "passed", score: 86 },
   ],
 };
 
 export const mockQuickReviews: StudyLink[] = [
-  { id: assessmentId, title: "Procurement Foundations Quick Review", description: "7 questions - all supported formats", href: `/study/assessments/${assessmentId}` },
-  { id: "74000000-0000-4000-8000-000000000002", title: "Market Research Review", description: "5 minute concept refresh", href: "/training/10000000-0000-4000-8000-000000000001/lessons/30000000-0000-4000-8000-000000000002" },
+  { id: assessmentId, title: "Quick Review Assessment", description: "7 questions - all supported formats", href: `/study/assessments/${assessmentId}` },
+  { id: "74000000-0000-4000-8000-000000000002", title: "Lesson 2 Review", description: "5 minute concept refresh", href: "/training/10000000-0000-4000-8000-000000000001/lessons/30000000-0000-4000-8000-000000000002" },
 ];
 
 export const mockSavedBookmarks: StudyLink[] = [
-  { id: "61000000-0000-4000-8000-000000000001", title: "Market Research Quick Guide", description: "Fieldbook - Market Research", href: "/reference/61000000-0000-4000-8000-000000000001" },
-  { id: "61000000-0000-4000-8000-000000000003", title: "Writing Useful Evaluation Factors", description: "Fieldbook - Evaluation", href: "/reference/61000000-0000-4000-8000-000000000003" },
+  { id: "61000000-0000-4000-8000-000000000001", title: "Fieldbook Guide 1", description: "Fieldbook - Category 2", href: "/reference/61000000-0000-4000-8000-000000000001" },
+  { id: "61000000-0000-4000-8000-000000000003", title: "Fieldbook Guide 3", description: "Fieldbook - Category 4", href: "/reference/61000000-0000-4000-8000-000000000003" },
 ];
 
 export const mockRecommendedLessons: StudyLink[] = [
-  { id: "30000000-0000-4000-8000-000000000002", title: "Conducting Effective Market Research", description: "Continue at page 4 of 4", href: "/training/10000000-0000-4000-8000-000000000001/lessons/30000000-0000-4000-8000-000000000002" },
-  { id: "30000000-0000-4000-8000-000000000004", title: "Building a Solicitation", description: "Recommended from recent activity", href: "/training/10000000-0000-4000-8000-000000000001/lessons/30000000-0000-4000-8000-000000000004" },
+  { id: "30000000-0000-4000-8000-000000000002", title: "Lesson 2", description: "Continue at page 4 of 4", href: "/training/10000000-0000-4000-8000-000000000001/lessons/30000000-0000-4000-8000-000000000002" },
+  { id: "30000000-0000-4000-8000-000000000004", title: "Lesson 4", description: "Recommended from recent activity", href: "/training/10000000-0000-4000-8000-000000000001/lessons/30000000-0000-4000-8000-000000000004" },
 ];

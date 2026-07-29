@@ -10,7 +10,7 @@ The UI models:
 - effective permission and protected-area summaries;
 - audit event previews for access changes.
 
-All routes require an authenticated user and an admin `RoleGate`. In mock mode, the mock Elena Brooks identity includes the admin role so the screens can be evaluated.
+All routes require an authenticated user and an admin `RoleGate`. In mock mode, the mock Admin User identity includes the admin role so the screens can be evaluated.
 
 ## Future mutation boundary
 

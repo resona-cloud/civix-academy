@@ -24,7 +24,7 @@ This is the proposed baseline model. The SQL migrations are the executable sourc
 ## Fieldbook
 
 - `fieldbook_articles`: searchable operational articles and job aids
-- `glossary_terms`: published procurement vocabulary and definitions
+- `glossary_terms`: published vocabulary and definitions
 
 ## Labs
 

@@ -1,24 +1,24 @@
 import type { Competency, Evaluation, Rubric } from "./types";
 
 export const mockCompetencies: Competency[] = [
-  { id: "91000000-0000-4000-8000-000000000001", slug: "analytical-reasoning", name: "Analytical Reasoning", description: "Interprets evidence and reaches supported conclusions." },
-  { id: "91000000-0000-4000-8000-000000000002", slug: "compliance", name: "Compliance", description: "Identifies and applies material requirements accurately." },
-  { id: "91000000-0000-4000-8000-000000000003", slug: "documentation", name: "Documentation", description: "Produces clear, traceable, review-ready work products." },
-  { id: "91000000-0000-4000-8000-000000000004", slug: "risk-assessment", name: "Risk Assessment", description: "Identifies, prioritizes, and communicates acquisition risk." },
+  { id: "91000000-0000-4000-8000-000000000001", slug: "competency-1", name: "Competency 1", description: "Interprets evidence and reaches supported conclusions." },
+  { id: "91000000-0000-4000-8000-000000000002", slug: "competency-2", name: "Competency 2", description: "Identifies and applies material requirements accurately." },
+  { id: "91000000-0000-4000-8000-000000000003", slug: "competency-3", name: "Competency 3", description: "Produces clear, traceable, review-ready work products." },
+  { id: "91000000-0000-4000-8000-000000000004", slug: "competency-4", name: "Competency 4", description: "Identifies, prioritizes, and communicates risk." },
 ];
 
 const rubricDefinitions = [
-  ["92000000-0000-4000-8000-000000000001", "Opportunity Qualification Rubric"],
-  ["92000000-0000-4000-8000-000000000002", "Vendor Readiness Rubric"],
-  ["92000000-0000-4000-8000-000000000003", "RFP Intake Rubric"],
-  ["92000000-0000-4000-8000-000000000004", "Agency Research Rubric"],
-  ["92000000-0000-4000-8000-000000000005", "Compliance Review Rubric"],
+  ["92000000-0000-4000-8000-000000000001", "Rubric 1"],
+  ["92000000-0000-4000-8000-000000000002", "Rubric 2"],
+  ["92000000-0000-4000-8000-000000000003", "Rubric 3"],
+  ["92000000-0000-4000-8000-000000000004", "Rubric 4"],
+  ["92000000-0000-4000-8000-000000000005", "Rubric 5"],
 ] as const;
 
 export const mockRubrics: Rubric[] = rubricDefinitions.map(([id, title], rubricIndex) => ({
   id,
   title,
-  description: "Mock weighted rubric for practical agent performance.",
+  description: "Mock weighted rubric for practical performance.",
   passing_score: 75,
   criteria: mockCompetencies.map((competency, index) => ({
     id: `92${rubricIndex + 1}${index + 1}0000-0000-4000-8000-000000000001`,
