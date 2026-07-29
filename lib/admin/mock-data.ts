@@ -16,8 +16,8 @@ function cohortAssignment(userId: string, cohortId: string, cohortName: string, 
 
 function accessSummary(roles: AppRole[]): AccessSummary {
   const permissions = Array.from(new Set(roles.flatMap((role) => rolePermissions[role])));
-  const accessLevel: AccessSummary["access_level"] = roles.includes("admin") ? "platform_admin" : roles.includes("instructor") ? "operations" : roles.includes("reviewer") ? "review" : "learning";
-  const areas = accessLevel === "platform_admin" ? ["All application areas", "User and role administration", "Audit events"] : accessLevel === "operations" ? ["Instructor Console", "People", "Reports"] : accessLevel === "review" ? ["Reviews", "Reports"] : ["Training", "Study Center", "Fieldbook", "Labs"];
+  const accessLevel: AccessSummary["access_level"] = roles.includes("admin") ? "platform_admin" : roles.includes("zone_manager") ? "operations" : "learning";
+  const areas = accessLevel === "platform_admin" ? ["All application areas", "User and role administration", "Audit events"] : accessLevel === "operations" ? ["Team Console", "People", "Reviews", "Reports"] : ["Training", "Study Center", "Fieldbook", "Labs"];
   return { permissions: [...permissions], protected_areas: areas, access_level: accessLevel };
 }
 
@@ -26,10 +26,10 @@ function audit(userId: string, actorName: string, event: string, summary: string
 }
 
 const seeds: Array<{ id: string; email: string; name: string; classification: string; status: AdminUser["status"]; roles: AppRole[]; cohorts: CohortAssignment[]; lastActive: string | null }> = [
-  { id: adminId, email: "elena.brooks@example.test", name: "Elena Brooks", classification: "Senior Procurement Instructor", status: "active", roles: ["admin", "instructor", "reviewer"], cohorts: [cohortAssignment(adminId, juneCohortId, "June Agent Cohort", "instructor")], lastActive: "2026-06-24T13:30:00Z" },
-  { id: "b1000000-0000-4000-8000-000000000002", email: "darius.king@example.test", name: "Darius King", classification: "Senior Reviewer", status: "active", roles: ["reviewer"], cohorts: [], lastActive: "2026-06-24T12:45:00Z" },
+  { id: adminId, email: "elena.brooks@example.test", name: "Elena Brooks", classification: "Senior Procurement Instructor", status: "active", roles: ["admin", "zone_manager"], cohorts: [cohortAssignment(adminId, juneCohortId, "June Agent Cohort", "instructor")], lastActive: "2026-06-24T13:30:00Z" },
+  { id: "b1000000-0000-4000-8000-000000000002", email: "darius.king@example.test", name: "Darius King", classification: "Senior Reviewer", status: "active", roles: ["zone_manager"], cohorts: [], lastActive: "2026-06-24T12:45:00Z" },
   { id: "a1000000-0000-4000-8000-000000000001", email: "maya.chen@example.test", name: "Maya Chen", classification: "Procurement Agent I Candidate", status: "active", roles: ["trainee"], cohorts: [cohortAssignment("a1000000-0000-4000-8000-000000000001", juneCohortId, "June Agent Cohort", "trainee")], lastActive: "2026-06-23T15:40:00Z" },
-  { id: "a1000000-0000-4000-8000-000000000003", email: "priya.nair@example.test", name: "Priya Nair", classification: "Opportunity Research Specialist Candidate", status: "active", roles: ["trainee", "certified_agent"], cohorts: [cohortAssignment("a1000000-0000-4000-8000-000000000003", specialistCohortId, "Research Specialist Cohort", "trainee")], lastActive: "2026-06-23T18:10:00Z" },
+  { id: "a1000000-0000-4000-8000-000000000003", email: "priya.nair@example.test", name: "Priya Nair", classification: "Opportunity Research Specialist Candidate", status: "active", roles: ["trainee"], cohorts: [cohortAssignment("a1000000-0000-4000-8000-000000000003", specialistCohortId, "Research Specialist Cohort", "trainee")], lastActive: "2026-06-23T18:10:00Z" },
   { id: "a1000000-0000-4000-8000-000000000002", email: "jordan.ellis@example.test", name: "Jordan Ellis", classification: "Procurement Agent I Candidate", status: "inactive", roles: ["trainee"], cohorts: [cohortAssignment("a1000000-0000-4000-8000-000000000002", juneCohortId, "June Agent Cohort", "trainee")], lastActive: "2026-06-14T11:05:00Z" },
 ];
 

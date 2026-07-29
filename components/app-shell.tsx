@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { CurrentAppUser } from "@/lib/auth/types";
 
 const navigation = [
   ["Overview", "/"],
@@ -8,7 +9,7 @@ const navigation = [
   ["Certifications", "/certifications"],
   ["Fieldbook", "/reference"],
   ["Labs", "/labs"],
-  ["Instructor", "/instructor"],
+  ["Team", "/instructor"],
   ["Reviews", "/reviews"],
   ["People", "/people"],
   ["Reports", "/reports"],
@@ -16,7 +17,15 @@ const navigation = [
   ["Settings", "/settings"],
 ] as const;
 
-export function AppShell({ children }: { children: ReactNode }) {
+function initialsFor(displayName: string | undefined) {
+  if (!displayName) return "?";
+  const parts = displayName.trim().split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1]?.[0] ?? "" : "";
+  return (first + last).toUpperCase() || "?";
+}
+
+export function AppShell({ children, currentUser }: { children: ReactNode; currentUser: CurrentAppUser | null }) {
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">
       <aside className="border-b border-slate-800 bg-slate-950 px-5 py-5 text-white lg:min-h-screen lg:border-b-0 lg:border-r">
@@ -34,8 +43,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       </aside>
       <div>
         <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
-          <span className="text-sm text-slate-500">GovCon Procurement Agent Platform</span>
-          <Link aria-label="Account" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600" href="/account">EB</Link>
+          <span className="text-sm text-slate-500">Resona Team Training Platform</span>
+          <Link aria-label="Account" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-slate-600" href="/account">
+            {initialsFor(currentUser?.display_name)}
+          </Link>
         </header>
         <main className="mx-auto max-w-7xl p-6 lg:p-10">{children}</main>
       </div>

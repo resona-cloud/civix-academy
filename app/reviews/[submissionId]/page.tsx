@@ -15,5 +15,5 @@ export default async function ReviewSubmissionPage({ params }: Props) {
   const submission = mockReviewSubmissions.find((item) => item.id === submissionId);
   if (!submission) notFound();
   const rubric = submission.rubric_id ? mockRubrics.find((item) => item.id === submission.rubric_id) : undefined;
-  return <RoleGate roles={["admin", "reviewer"]} user={user}><ReviewWorkspace rubric={rubric} submission={submission} /></RoleGate>;
+  return <RoleGate roles={["admin", "zone_manager"]} user={user}><ReviewWorkspace rubric={rubric} submission={submission} /></RoleGate>;
 }

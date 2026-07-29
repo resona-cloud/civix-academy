@@ -6,5 +6,5 @@ export const dynamic = "force-dynamic";
 
 export default async function InstructorPage() {
   const user = await getCurrentProfile();
-  return <RoleGate roles={["admin", "instructor"]} user={user}><InstructorConsole /></RoleGate>;
+  return <RoleGate roles={["admin", "zone_manager"]} user={user}><InstructorConsole /></RoleGate>;
 }

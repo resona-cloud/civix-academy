@@ -1,6 +1,6 @@
 # Architecture
 
-CIVIX Academy Console is an internal administration surface for training, certification, the Fieldbook, and scenario labs used by GovCon Procurement Agents. It uses the Next.js App Router, TypeScript, Tailwind CSS, Supabase, and Vercel.
+CIVIX Academy Console is an internal administration surface for training, certification, the Fieldbook, and scenario labs used by Resona's team. It uses the Next.js App Router, TypeScript, Tailwind CSS, Supabase, and Vercel.
 
 ## Boundaries
 

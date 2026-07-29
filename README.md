@@ -1,6 +1,6 @@
 # CIVIX Academy Console
 
-Internal training, certification, Fieldbook, and lab administration platform for GovCon Procurement Agents.
+Internal training, certification, Fieldbook, and lab administration platform for Resona's team.
 
 ## Included
 
@@ -28,7 +28,7 @@ Packages are intentionally not installed by this scaffold.
 | `/certifications` | Certification management |
 | `/reference` | Fieldbook management |
 | `/labs` | Lab and scenario management |
-| `/people` | Agent and access management |
+| `/people` | Team and access management |
 | `/reports` | Reporting |
 | `/settings` | Console settings |
 | `/api/health` | Basic health response |

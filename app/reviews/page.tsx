@@ -6,5 +6,5 @@ export const dynamic = "force-dynamic";
 
 export default async function ReviewsPage() {
   const user = await getCurrentProfile();
-  return <RoleGate roles={["admin", "reviewer"]} user={user}><ReviewQueue /></RoleGate>;
+  return <RoleGate roles={["admin", "zone_manager"]} user={user}><ReviewQueue /></RoleGate>;
 }

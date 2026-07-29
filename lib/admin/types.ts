@@ -20,7 +20,7 @@ export type CohortAssignment = {
 export type AccessSummary = {
   permissions: Permission[];
   protected_areas: string[];
-  access_level: "platform_admin" | "operations" | "review" | "learning";
+  access_level: "platform_admin" | "operations" | "learning";
 };
 
 export type AuditEvent = {

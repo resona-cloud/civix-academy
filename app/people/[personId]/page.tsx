@@ -13,5 +13,5 @@ export default async function LearnerProfilePage({ params }: Props) {
   const { personId } = await params;
   const learner = mockLearnerProfiles.find((item) => item.id === personId);
   if (!learner) notFound();
-  return <RoleGate roles={["admin", "instructor", "reviewer"]} user={user}><LearnerProfile learner={learner} /></RoleGate>;
+  return <RoleGate roles={["admin", "zone_manager"]} user={user}><LearnerProfile learner={learner} /></RoleGate>;
 }

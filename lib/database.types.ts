@@ -1089,6 +1089,11 @@ export type Database = {
         | "reviewer"
         | "trainee"
         | "certified_agent"
+        | "zone_manager"
+        | "sales_rep"
+        | "sourcing_operator"
+        | "developer"
+        | "founder"
       attempt_status: "started" | "submitted" | "passed" | "failed"
       bookmark_target_type: "lesson_page" | "fieldbook_article" | "lab_scenario"
       certificate_status: "active" | "expired" | "revoked"
@@ -1251,6 +1256,11 @@ export const Constants = {
         "reviewer",
         "trainee",
         "certified_agent",
+        "zone_manager",
+        "sales_rep",
+        "sourcing_operator",
+        "developer",
+        "founder",
       ],
       attempt_status: ["started", "submitted", "passed", "failed"],
       bookmark_target_type: [

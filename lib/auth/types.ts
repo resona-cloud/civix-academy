@@ -1,4 +1,4 @@
-export type AppRole = "admin" | "instructor" | "reviewer" | "trainee" | "certified_agent";
+export type AppRole = "admin" | "trainee" | "zone_manager" | "sales_rep" | "sourcing_operator" | "developer" | "founder";
 
 export type Permission =
   | "manage_platform"

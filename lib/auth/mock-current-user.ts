@@ -5,7 +5,7 @@ export const mockCurrentUser: CurrentAppUser = {
   email: "elena.brooks@example.test",
   display_name: "Elena Brooks",
   classification: "Senior Procurement Instructor",
-  roles: ["admin", "instructor", "reviewer"],
+  roles: ["admin", "zone_manager"],
   source: "mock",
 };
 
