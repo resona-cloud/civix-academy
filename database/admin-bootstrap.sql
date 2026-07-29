@@ -34,16 +34,18 @@ begin
   end if;
 
   -- STEP 3: Upsert the public profile using the columns in the generated
-  -- Database type: id, display_name, classification, status, timestamps.
-  -- Existing non-empty names/classifications are preserved.
+  -- Database type: id, org_id, display_name, classification, status, timestamps.
+  -- Existing non-empty names/classifications/org_id are preserved.
   insert into public.profiles (
     id,
+    org_id,
     display_name,
     classification,
     status
   )
   values (
     target_user_id,
+    (select id from public.organizations where slug = 'resona'),
     target_display_name,
     'Platform Administrator',
     'active'
