@@ -56,7 +56,7 @@ export async function getCourseDetail(courseId: string): Promise<TrainingResult<
     .select(`
       id, slug, title, description, status, position, estimated_minutes,
       modules ( id, course_id, title, position,
-        lessons ( id, module_id, title, position, estimated_minutes )
+        lessons ( id, module_id, title, position, estimated_minutes, is_check )
       )
     `)
     .eq("id", courseId)
@@ -92,6 +92,7 @@ type RawLessonWithPagesRow = {
   title: string;
   position: number;
   estimated_minutes: number | null;
+  is_check: boolean;
   lesson_pages: {
     id: string;
     lesson_id: string;
@@ -115,7 +116,7 @@ export async function getLessonReaderData(courseId: string, lessonId: string): P
     client
       .from("lessons")
       .select(`
-        id, module_id, title, position, estimated_minutes,
+        id, module_id, title, position, estimated_minutes, is_check,
         modules!inner ( course_id ),
         lesson_pages (
           id, lesson_id, title, position,
@@ -138,6 +139,7 @@ export async function getLessonReaderData(courseId: string, lessonId: string): P
     title: row.title,
     position: row.position,
     estimated_minutes: row.estimated_minutes,
+    is_check: row.is_check,
   };
 
   const pages: LessonPage[] = sortByPosition(row.lesson_pages).map((page) => ({
