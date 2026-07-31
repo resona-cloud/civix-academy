@@ -2,6 +2,7 @@ import "server-only";
 
 import { mockLesson } from "@/lib/lesson-reader/mock-data";
 import type { ContentBlock, LessonModule, LessonNavItem, LessonPage, LessonReaderData } from "@/lib/lesson-reader/types";
+import type { ProgressStatus } from "@/lib/persistence/types";
 import { createServerSupabaseClient, isServerSupabaseConfigured } from "@/lib/supabase/server";
 import { mockCourseCatalog, mockCourseDetail } from "./mock-data";
 import type { CourseDetail, CourseSummary, TrainingResult } from "./types";
@@ -84,6 +85,24 @@ export async function getCourseDetail(courseId: string): Promise<TrainingResult<
   };
 
   return { data: { course, modules }, source: "supabase" };
+}
+
+// Used to sequentially lock lessons on the course detail page. Returns {} in
+// mock mode or if unconfigured/unauthenticated -- callers must treat an empty
+// map as "nothing known," not "nothing completed," when deciding whether to
+// enforce the sequential lock at all.
+export async function getLessonProgressStatuses(lessonIds: string[]): Promise<Record<string, ProgressStatus>> {
+  if (!isServerSupabaseConfigured() || lessonIds.length === 0) return {};
+  const client = await createServerSupabaseClient();
+  if (!client) return {};
+
+  const { data, error } = await client
+    .from("user_progress")
+    .select("lesson_id, status")
+    .in("lesson_id", lessonIds);
+
+  if (error || !data) return {};
+  return Object.fromEntries(data.map((row) => [row.lesson_id, row.status]));
 }
 
 type RawLessonWithPagesRow = {
