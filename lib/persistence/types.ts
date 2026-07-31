@@ -66,3 +66,18 @@ export type SaveProgressInput = {
   visited_page_ids: string[];
   completed_page_ids: string[];
 };
+
+export type AttemptStatus = "started" | "submitted" | "passed" | "failed";
+
+export type ActivityAttempt = {
+  id: string;
+  user_id: string;
+  content_block_id: string;
+  attempt_number: number;
+  status: AttemptStatus;
+  response: unknown;
+  score: number | null;
+  max_score: number | null;
+  started_at: string;
+  submitted_at: string | null;
+};

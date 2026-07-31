@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { LessonReaderData } from "@/lib/lesson-reader/types";
+import { loadActivityAttempt } from "@/lib/persistence/activity-attempts";
 import { loadBookmark, toggleBookmark as persistBookmark } from "@/lib/persistence/bookmarks";
 import { deleteNote, loadNotes, saveNote } from "@/lib/persistence/notes";
 import { loadProgress, saveProgress } from "@/lib/persistence/progress";
@@ -10,6 +11,10 @@ import { ContentBlockRenderer } from "./content-block-renderer";
 import { LessonSidebar } from "./lesson-sidebar";
 import { NotesPanel } from "./notes-panel";
 import { ProgressBar } from "./progress-bar";
+
+function gatingBlockIds(lesson: LessonReaderData) {
+  return lesson.pages.flatMap((page) => page.content_blocks.filter((block) => block.block_type === "activity" && block.content.gates_progress).map((block) => block.id));
+}
 
 export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   const [activePageIndex, setActivePageIndex] = useState(0);
@@ -20,17 +25,23 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   const [noteIds, setNoteIds] = useState<Record<string, string>>({});
   const [savingNote, setSavingNote] = useState(false);
   const [persistenceMode, setPersistenceMode] = useState<PersistenceMode>("local");
+  const [passedGateIds, setPassedGateIds] = useState<Set<string>>(() => new Set());
   const activePage = lesson.pages[activePageIndex];
+  const activePageGateIds = activePage?.content_blocks.filter((block) => block.block_type === "activity" && block.content.gates_progress).map((block) => block.id) ?? [];
+  const isActivePageLocked = activePageGateIds.some((id) => !passedGateIds.has(id));
 
   useEffect(() => {
     let active = true;
     async function hydrate() {
-      const [progressResult, noteResults, bookmarkResults] = await Promise.all([
+      const gateIds = gatingBlockIds(lesson);
+      const [progressResult, noteResults, bookmarkResults, attemptResults] = await Promise.all([
         loadProgress(lesson.lesson.id),
         Promise.all(lesson.pages.map((page) => loadNotes({ lesson_page_id: page.id }))),
         Promise.all(lesson.pages.map((page) => loadBookmark({ target_type: "lesson_page", target_id: page.id }))),
+        Promise.all(gateIds.map((id) => loadActivityAttempt(id))),
       ]);
       if (!active) return;
+      setPassedGateIds(new Set(gateIds.filter((_, index) => attemptResults[index]?.data?.status === "passed")));
       setPersistenceMode(progressResult.mode);
       const progress = progressResult.data;
       if (progress) {
@@ -66,6 +77,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   function goToPage(index: number) {
     const page = lesson.pages[index];
     if (!page) return;
+    if (index > activePageIndex && isActivePageLocked) return;
     setActivePageIndex(index);
     const nextVisited = new Set(visitedPages).add(page.id);
     setVisitedPages(nextVisited);
@@ -120,13 +132,14 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
         <article className="min-w-0 px-6 py-8 sm:px-10 lg:py-10">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">Page {activePage.position} of {lesson.pages.length}</p>
           <h2 className="mt-2 text-3xl font-semibold tracking-tight">{activePage.title}</h2>
-          <div className="mt-8 space-y-7">{activePage.content_blocks.map((block) => <ContentBlockRenderer block={block} key={block.id} />)}</div>
-          <button className={`mt-8 rounded-lg px-4 py-2 text-sm font-medium ${completedPages.has(activePage.id) ? "bg-emerald-50 text-emerald-800" : "bg-emerald-700 text-white"}`} disabled={completedPages.has(activePage.id)} onClick={markPageComplete} type="button">{completedPages.has(activePage.id) ? "Page completed" : "Mark page complete"}</button>
+          <div className="mt-8 space-y-7">{activePage.content_blocks.map((block) => <ContentBlockRenderer block={block} key={block.id} onActivityPassed={(blockId) => setPassedGateIds((current) => new Set(current).add(blockId))} />)}</div>
+          {isActivePageLocked ? <p className="mt-4 text-sm text-amber-700">Answer the activity above correctly to continue.</p> : null}
+          <button className={`mt-8 rounded-lg px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40 ${completedPages.has(activePage.id) ? "bg-emerald-50 text-emerald-800" : "bg-emerald-700 text-white"}`} disabled={completedPages.has(activePage.id) || isActivePageLocked} onClick={markPageComplete} type="button">{completedPages.has(activePage.id) ? "Page completed" : "Mark page complete"}</button>
 
           <nav aria-label="Lesson page navigation" className="mt-12 flex items-center justify-between border-t border-slate-200 pt-6">
             <button className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40" disabled={activePageIndex === 0} onClick={() => goToPage(activePageIndex - 1)} type="button">&lt;- Previous</button>
             <span className="text-sm text-slate-500">{activePageIndex + 1} / {lesson.pages.length}</span>
-            <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={activePageIndex === lesson.pages.length - 1} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
+            <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={activePageIndex === lesson.pages.length - 1 || isActivePageLocked} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
           </nav>
         </article>
 

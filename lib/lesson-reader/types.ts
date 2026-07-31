@@ -20,7 +20,7 @@ export type CalloutBlock = LessonPageBlockBase & {
 
 export type ActivityBlock = LessonPageBlockBase & {
   block_type: "activity";
-  content: { question: AssessmentQuestion };
+  content: { question: AssessmentQuestion; gates_progress?: boolean };
 };
 
 export type DownloadBlock = LessonPageBlockBase & {
@@ -54,6 +54,7 @@ export type LessonNavItem = {
   title: string;
   position: number;
   estimated_minutes: number | null;
+  is_check?: boolean;
 };
 
 export type LessonModule = {
