@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { LessonReaderData } from "@/lib/lesson-reader/types";
 import { loadActivityAttempt } from "@/lib/persistence/activity-attempts";
@@ -29,6 +30,12 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   const activePage = lesson.pages[activePageIndex];
   const activePageGateIds = activePage?.content_blocks.filter((block) => block.block_type === "activity" && block.content.gates_progress).map((block) => block.id) ?? [];
   const isActivePageLocked = activePageGateIds.some((id) => !passedGateIds.has(id));
+  const isLastPage = activePageIndex === lesson.pages.length - 1;
+  const orderedLessonIds = lesson.modules.flatMap((module_) => module_.lessons.map((item) => item.id));
+  const nextLessonId = (() => {
+    const currentIndex = orderedLessonIds.indexOf(lesson.lesson.id);
+    return currentIndex >= 0 && currentIndex < orderedLessonIds.length - 1 ? orderedLessonIds[currentIndex + 1] : null;
+  })();
 
   useEffect(() => {
     let active = true;
@@ -139,7 +146,15 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
           <nav aria-label="Lesson page navigation" className="mt-12 flex items-center justify-between border-t border-slate-200 pt-6">
             <button className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40" disabled={activePageIndex === 0} onClick={() => goToPage(activePageIndex - 1)} type="button">&lt;- Previous</button>
             <span className="text-sm text-slate-500">{activePageIndex + 1} / {lesson.pages.length}</span>
-            <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={activePageIndex === lesson.pages.length - 1 || isActivePageLocked} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
+            {isLastPage && completedPages.has(activePage.id) ? (
+              nextLessonId ? (
+                <Link className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white" href={`/training/${lesson.course.id}/lessons/${nextLessonId}`}>Next lesson -&gt;</Link>
+              ) : (
+                <Link className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-medium text-white" href={`/training/${lesson.course.id}`}>Finish course -&gt;</Link>
+              )
+            ) : (
+              <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={isLastPage || isActivePageLocked} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
+            )}
           </nav>
         </article>
 
