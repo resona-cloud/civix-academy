@@ -31,6 +31,10 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   const activePageGateIds = activePage?.content_blocks.filter((block) => block.block_type === "activity" && block.content.gates_progress).map((block) => block.id) ?? [];
   const isActivePageLocked = activePageGateIds.some((id) => !passedGateIds.has(id));
   const isLastPage = activePageIndex === lesson.pages.length - 1;
+  // Marking a page complete is the gate for advancing -- not just passing any
+  // activity on it -- so a page with no activity at all still can't be
+  // skipped past without the explicit "Mark page complete" acknowledgment.
+  const canAdvancePastActivePage = !isActivePageLocked && completedPages.has(activePage?.id ?? "");
   const orderedLessonIds = lesson.modules.flatMap((module_) => module_.lessons.map((item) => item.id));
   const nextLessonId = (() => {
     const currentIndex = orderedLessonIds.indexOf(lesson.lesson.id);
@@ -84,7 +88,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   function goToPage(index: number) {
     const page = lesson.pages[index];
     if (!page) return;
-    if (index > activePageIndex && isActivePageLocked) return;
+    if (index > activePageIndex && !canAdvancePastActivePage) return;
     setActivePageIndex(index);
     const nextVisited = new Set(visitedPages).add(page.id);
     setVisitedPages(nextVisited);
@@ -140,7 +144,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">Page {activePage.position} of {lesson.pages.length}</p>
           <h2 className="mt-2 text-3xl font-semibold tracking-tight">{activePage.title}</h2>
           <div className="mt-8 space-y-7">{activePage.content_blocks.map((block) => <ContentBlockRenderer alreadyPassed={passedGateIds.has(block.id)} block={block} key={block.id} onActivityPassed={(blockId) => setPassedGateIds((current) => new Set(current).add(blockId))} />)}</div>
-          {isActivePageLocked ? <p className="mt-4 text-sm text-amber-700">Answer the activity above correctly to continue.</p> : null}
+          {isActivePageLocked ? <p className="mt-4 text-sm text-amber-700">Answer the activity above correctly to continue.</p> : !completedPages.has(activePage.id) ? <p className="mt-4 text-sm text-amber-700">Mark this page complete to continue.</p> : null}
           <button className={`mt-8 rounded-lg px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40 ${completedPages.has(activePage.id) ? "bg-emerald-50 text-emerald-800" : "bg-emerald-700 text-white"}`} disabled={completedPages.has(activePage.id) || isActivePageLocked} onClick={markPageComplete} type="button">{completedPages.has(activePage.id) ? "Page completed" : "Mark page complete"}</button>
 
           <nav aria-label="Lesson page navigation" className="mt-12 flex items-center justify-between border-t border-slate-200 pt-6">
@@ -153,7 +157,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
                 <Link className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-medium text-white" href={`/training/${lesson.course.id}`}>Finish course -&gt;</Link>
               )
             ) : (
-              <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={isLastPage || isActivePageLocked} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
+              <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={isLastPage || !canAdvancePastActivePage} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
             )}
           </nav>
         </article>
