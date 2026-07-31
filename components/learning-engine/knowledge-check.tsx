@@ -10,12 +10,15 @@ type Props = {
   question: AssessmentQuestion;
   contentBlockId?: string;
   gatesProgress?: boolean;
+  alreadyPassed?: boolean;
   onPassed?: () => void;
 };
 
-export function KnowledgeCheck({ question, contentBlockId, gatesProgress, onPassed }: Props) {
+export function KnowledgeCheck({ question, contentBlockId, gatesProgress, alreadyPassed, onPassed }: Props) {
   const [response, setResponse] = useState<QuestionResponse>(null);
-  const [result, setResult] = useState<QuestionScore | null>(null);
+  const [result, setResult] = useState<QuestionScore | null>(() =>
+    alreadyPassed ? { question_id: question.id, correct: true, earned_points: question.points, available_points: question.points } : null,
+  );
 
   async function checkAnswer() {
     const scored = scoreQuestion(question, response);
