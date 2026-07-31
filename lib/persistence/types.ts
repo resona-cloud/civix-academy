@@ -1,3 +1,5 @@
+import type { QuestionResponse } from "@/lib/learning-engine/types";
+
 export type PersistenceMode = "supabase" | "local";
 
 export type PersistenceResult<T> = {
@@ -75,7 +77,7 @@ export type ActivityAttempt = {
   content_block_id: string;
   attempt_number: number;
   status: AttemptStatus;
-  response: unknown;
+  response: QuestionResponse;
   score: number | null;
   max_score: number | null;
   started_at: string;

@@ -11,11 +11,12 @@ type Props = {
   contentBlockId?: string;
   gatesProgress?: boolean;
   alreadyPassed?: boolean;
+  initialResponse?: QuestionResponse;
   onPassed?: () => void;
 };
 
-export function KnowledgeCheck({ question, contentBlockId, gatesProgress, alreadyPassed, onPassed }: Props) {
-  const [response, setResponse] = useState<QuestionResponse>(null);
+export function KnowledgeCheck({ question, contentBlockId, gatesProgress, alreadyPassed, initialResponse, onPassed }: Props) {
+  const [response, setResponse] = useState<QuestionResponse>(() => initialResponse ?? null);
   const [result, setResult] = useState<QuestionScore | null>(() =>
     alreadyPassed ? { question_id: question.id, correct: true, earned_points: question.points, available_points: question.points } : null,
   );

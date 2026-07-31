@@ -1,6 +1,7 @@
 "use client";
 
 import type { ContentBlock } from "@/lib/lesson-reader/types";
+import type { QuestionResponse } from "@/lib/learning-engine/types";
 import { KnowledgeCheck } from "@/components/learning-engine/knowledge-check";
 
 const calloutStyles = {
@@ -9,7 +10,7 @@ const calloutStyles = {
   success: "border-emerald-200 bg-emerald-50 text-emerald-950",
 };
 
-export function ContentBlockRenderer({ block, onActivityPassed, alreadyPassed }: { block: ContentBlock; onActivityPassed?: (contentBlockId: string) => void; alreadyPassed?: boolean }) {
+export function ContentBlockRenderer({ block, onActivityPassed, alreadyPassed, initialResponse }: { block: ContentBlock; onActivityPassed?: (contentBlockId: string) => void; alreadyPassed?: boolean; initialResponse?: QuestionResponse }) {
   switch (block.block_type) {
     case "rich_text":
       return <section>{block.content.heading ? <h2 className="mb-3 text-xl font-semibold">{block.content.heading}</h2> : null}<div className="space-y-4 leading-7 text-slate-700">{block.content.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></section>;
@@ -18,7 +19,7 @@ export function ContentBlockRenderer({ block, onActivityPassed, alreadyPassed }:
     case "download":
       return <section className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-slate-50 p-5"><div><h2 className="font-semibold">{block.content.title}</h2><p className="mt-1 text-sm text-slate-500">{block.content.description}</p></div><button className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium" type="button">Preview</button></section>;
     case "activity":
-      return <KnowledgeCheck alreadyPassed={alreadyPassed} contentBlockId={block.id} gatesProgress={block.content.gates_progress} onPassed={() => onActivityPassed?.(block.id)} question={block.content.question} />;
+      return <KnowledgeCheck alreadyPassed={alreadyPassed} contentBlockId={block.id} gatesProgress={block.content.gates_progress} initialResponse={initialResponse} onPassed={() => onActivityPassed?.(block.id)} question={block.content.question} />;
     case "image":
       // eslint-disable-next-line @next/next/no-img-element -- content is authored/seeded, not user uploads; no next/image optimization pipeline needed here.
       return <img alt={block.content.alt} className="max-w-full rounded-xl border border-slate-200" src={block.content.src} />;
