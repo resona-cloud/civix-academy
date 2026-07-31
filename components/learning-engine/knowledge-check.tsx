@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { recordActivityAttempt } from "@/lib/persistence/activity-attempts";
 import { isQuestionAnswered, scoreQuestion } from "@/lib/learning-engine/scoring";
 import type { AssessmentQuestion, QuestionResponse, QuestionScore } from "@/lib/learning-engine/types";
@@ -20,6 +20,17 @@ export function KnowledgeCheck({ question, contentBlockId, gatesProgress, alread
   const [result, setResult] = useState<QuestionScore | null>(() =>
     alreadyPassed ? { question_id: question.id, correct: true, earned_points: question.points, available_points: question.points } : null,
   );
+
+  // alreadyPassed/initialResponse arrive from an async hydration effect one level up,
+  // which resolves after this component's first mount -- the useState initializers above
+  // only run once, so this syncs the restored answer in once the real data lands.
+  useEffect(() => {
+    if (alreadyPassed) {
+      setResponse(initialResponse ?? null);
+      setResult({ question_id: question.id, correct: true, earned_points: question.points, available_points: question.points });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-sync on the hydration transition, not on every question identity change
+  }, [alreadyPassed, initialResponse]);
 
   async function checkAnswer() {
     const scored = scoreQuestion(question, response);
