@@ -132,7 +132,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
         <article className="min-w-0 px-6 py-8 sm:px-10 lg:py-10">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">Page {activePage.position} of {lesson.pages.length}</p>
           <h2 className="mt-2 text-3xl font-semibold tracking-tight">{activePage.title}</h2>
-          <div className="mt-8 space-y-7">{activePage.content_blocks.map((block) => <ContentBlockRenderer block={block} key={block.id} onActivityPassed={(blockId) => setPassedGateIds((current) => new Set(current).add(blockId))} />)}</div>
+          <div className="mt-8 space-y-7">{activePage.content_blocks.map((block) => <ContentBlockRenderer alreadyPassed={passedGateIds.has(block.id)} block={block} key={block.id} onActivityPassed={(blockId) => setPassedGateIds((current) => new Set(current).add(blockId))} />)}</div>
           {isActivePageLocked ? <p className="mt-4 text-sm text-amber-700">Answer the activity above correctly to continue.</p> : null}
           <button className={`mt-8 rounded-lg px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-40 ${completedPages.has(activePage.id) ? "bg-emerald-50 text-emerald-800" : "bg-emerald-700 text-white"}`} disabled={completedPages.has(activePage.id) || isActivePageLocked} onClick={markPageComplete} type="button">{completedPages.has(activePage.id) ? "Page completed" : "Mark page complete"}</button>
 
