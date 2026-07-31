@@ -31,10 +31,18 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   const activePageGateIds = activePage?.content_blocks.filter((block) => block.block_type === "activity" && block.content.gates_progress).map((block) => block.id) ?? [];
   const isActivePageLocked = activePageGateIds.some((id) => !passedGateIds.has(id));
   const isLastPage = activePageIndex === lesson.pages.length - 1;
-  // Marking a page complete is the gate for advancing -- not just passing any
-  // activity on it -- so a page with no activity at all still can't be
-  // skipped past without the explicit "Mark page complete" acknowledgment.
-  const canAdvancePastActivePage = !isActivePageLocked && completedPages.has(activePage?.id ?? "");
+  // A page is reachable only if every page before it is marked complete --
+  // not just the currently active one -- so a direct sidebar jump can't skip
+  // past pages that were never marked complete (marking a page complete is
+  // the one universal gate for advancing, whether or not it has an activity).
+  function isPageReachable(index: number) {
+    for (let i = 0; i < index; i += 1) {
+      const priorPage = lesson.pages[i];
+      if (!priorPage || !completedPages.has(priorPage.id)) return false;
+    }
+    return true;
+  }
+  const lockedPageIds = new Set(lesson.pages.filter((_, index) => !isPageReachable(index)).map((page) => page.id));
   const orderedLessonIds = lesson.modules.flatMap((module_) => module_.lessons.map((item) => item.id));
   const nextLessonId = (() => {
     const currentIndex = orderedLessonIds.indexOf(lesson.lesson.id);
@@ -88,7 +96,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   function goToPage(index: number) {
     const page = lesson.pages[index];
     if (!page) return;
-    if (index > activePageIndex && !canAdvancePastActivePage) return;
+    if (index > activePageIndex && !isPageReachable(index)) return;
     setActivePageIndex(index);
     const nextVisited = new Set(visitedPages).add(page.id);
     setVisitedPages(nextVisited);
@@ -138,7 +146,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
       </header>
 
       <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_18rem]">
-        <LessonSidebar activeLessonId={lesson.lesson.id} activePageIndex={activePageIndex} bookmarks={bookmarks} modules={lesson.modules} onPageSelect={goToPage} pages={lesson.pages} />
+        <LessonSidebar activeLessonId={lesson.lesson.id} activePageIndex={activePageIndex} bookmarks={bookmarks} lockedPageIds={lockedPageIds} modules={lesson.modules} onPageSelect={goToPage} pages={lesson.pages} />
 
         <article className="min-w-0 px-6 py-8 sm:px-10 lg:py-10">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">Page {activePage.position} of {lesson.pages.length}</p>
@@ -157,7 +165,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
                 <Link className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-medium text-white" href={`/training/${lesson.course.id}`}>Finish course -&gt;</Link>
               )
             ) : (
-              <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={isLastPage || !canAdvancePastActivePage} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
+              <button className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40" disabled={isLastPage || !isPageReachable(activePageIndex + 1)} onClick={() => goToPage(activePageIndex + 1)} type="button">Next -&gt;</button>
             )}
           </nav>
         </article>
