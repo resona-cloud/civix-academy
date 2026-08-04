@@ -35,12 +35,13 @@ export default async function CourseDetailPage({ params }: Props) {
             <ul className="mt-3 grid gap-2">
               {module_.lessons.map((lesson) => {
                 const unlocked = unlockedLessonIds.has(lesson.id);
+                const completed = progressByLesson[lesson.id] === "completed";
                 return (
                   <li key={lesson.id}>
                     {unlocked ? (
                       <Link className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-slate-50" href={`/training/${course.id}/lessons/${lesson.id}`}>
-                        <span>{lesson.title}</span>
-                        <span className="text-slate-500">{lesson.estimated_minutes ?? "?"} min</span>
+                        <span className={completed ? "text-slate-400 line-through" : undefined}>{lesson.title}</span>
+                        <span className="text-slate-500">{completed ? "Completed" : `${lesson.estimated_minutes ?? "?"} min`}</span>
                       </Link>
                     ) : (
                       <span aria-disabled="true" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-slate-400">

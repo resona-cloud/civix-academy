@@ -18,7 +18,7 @@ function gatingBlockIds(lesson: LessonReaderData) {
   return lesson.pages.flatMap((page) => page.content_blocks.filter((block) => block.block_type === "activity" && block.content.gates_progress).map((block) => block.id));
 }
 
-export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
+export function LessonReader({ lesson, completedLessonIds }: { lesson: LessonReaderData; completedLessonIds: string[] }) {
   const [activePageIndex, setActivePageIndex] = useState(0);
   const [visitedPages, setVisitedPages] = useState(() => new Set(lesson.pages[0] ? [lesson.pages[0].id] : []));
   const [completedPages, setCompletedPages] = useState<Set<string>>(() => new Set());
@@ -148,7 +148,8 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <header className="border-b border-slate-200 px-5 py-5 sm:px-7">
-        <div className="flex flex-wrap items-start justify-between gap-4">
+        <Link className="text-sm font-medium text-slate-500 hover:text-slate-800" href={`/training/${lesson.course.id}`}>&lt;- Back to course</Link>
+        <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
           <div><p className="text-sm font-medium text-sky-700">{lesson.course.title}</p><h1 className="mt-1 text-2xl font-semibold tracking-tight">{lesson.lesson.title}</h1></div>
           <button aria-pressed={bookmarks.has(activePage.id)} className={`rounded-lg border px-4 py-2 text-sm font-medium ${bookmarks.has(activePage.id) ? "border-amber-300 bg-amber-50 text-amber-900" : "border-slate-300 bg-white text-slate-700"}`} onClick={toggleBookmark} type="button">
             {bookmarks.has(activePage.id) ? "Bookmarked" : "Bookmark page"}
@@ -158,7 +159,7 @@ export function LessonReader({ lesson }: { lesson: LessonReaderData }) {
       </header>
 
       <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,1fr)_18rem]">
-        <LessonSidebar activeLessonId={lesson.lesson.id} activePageIndex={activePageIndex} bookmarks={bookmarks} lockedPageIds={lockedPageIds} modules={lesson.modules} onPageSelect={goToPage} pages={lesson.pages} />
+        <LessonSidebar activeLessonId={lesson.lesson.id} activePageIndex={activePageIndex} bookmarks={bookmarks} completedLessonIds={new Set(completedLessonIds)} lockedPageIds={lockedPageIds} modules={lesson.modules} onPageSelect={goToPage} pages={lesson.pages} />
 
         <article className="min-w-0 px-6 py-8 sm:px-10 lg:py-10">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-700">Page {activePage.position} of {lesson.pages.length}</p>
