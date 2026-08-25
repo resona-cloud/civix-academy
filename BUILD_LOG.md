@@ -24,3 +24,67 @@ Checkpoint record of completed work, for tracking builds and merge points.
   and admin diagnostics are Supabase-backed). Courses, certifications,
   labs, fieldbook, admin user management, and instructor-ops remain
   mock-data-driven.
+
+## 2026-08-24
+
+- Corrected Resona Foundations Lessons 1.1, 1.4, and 2.1, plus Module 1
+  Check's Q1, per a re-audit of the handoff content against the live
+  resonabrands.com site (migration `0012_resona_foundations_v2_corrections.sql`).
+  Lesson 1.1's process narrative moved from the retired 3-phase shorthand
+  (Strategy -> Architecture -> Execution) to the real 4-phase process
+  (Discovery -> Architecture -> Brand & Execution -> Systemize), with the
+  mission quote, diagram, and retrieval question updated to match; Lesson
+  1.4 got a new product-failure-rate stats callout and a corrected "3x"
+  stat (time-to-market, not decision speed); Lesson 2.1 and the Module 1
+  Check question were brought in line with the same 4-phase process.
+  Applied as `UPDATE`s against already-live rows (course=1, lessons=15,
+  content_blocks=92, 4 enrolled users) rather than a fresh seed --
+  `0011_resona_foundations_content.sql` was confirmed live in production,
+  not merely present as a local file.
+- Study Center domain schema (migration `0013_study_center_schema.sql`):
+  new `assessments` (exam | quick_review), `assessment_questions`, and
+  `assessment_attempts` tables; `courses.initial_review_interval_days` /
+  `repeat_review_interval_days`; `enrollments.next_quick_review_due_at`;
+  `glossary_terms.category`. Quick-review questions are sampled at attempt
+  time from the course's single exam-type assessment's question pool --
+  quick_review assessments own no questions of their own, enforced by a
+  trigger on `assessment_questions`. `assessment_attempts` RLS mirrors the
+  existing `activity_attempts` pattern: clients can insert a started
+  attempt but can never self-report `score`/`passed`; grading happens
+  server-side. Regenerated `lib/database.types.ts` from the live schema;
+  `tsc --noEmit` is clean. Schema + RLS only -- no domain queries (progress
+  aggregation, quick-review sampling, due-date recalculation) or UI wiring
+  yet; Study Center's five panels are still fully mock-data-driven. The
+  Resona Foundations course-end cumulative review is now unblocked as a
+  real `assessments` row but was not authored in this pass (content
+  authoring is out of scope for a schema handoff).
+- Study Center domain queries + UI wiring: added `lib/study-center/queries.ts`
+  (mirrors `lib/training/queries.ts`'s mock-fallback pattern) covering course
+  progress aggregation, recommended-lesson lookup, quick-reviews-due, saved
+  bookmarks (real 3-hop join for `lesson_page` targets; `fieldbook_article`/
+  `lab_scenario` targets fall back to the bookmark's own label since those
+  domains have no Supabase query layer built yet), flashcards from
+  `glossary_terms`, and assessment display (with quick-review question
+  sampling). Added `app/api/persistence/assessment-attempts/route.ts`,
+  mirroring `activity-attempts`'s pattern exactly: the client echoes which
+  question ids it answered, the server re-fetches and grades them, and the
+  graded row is written via the service-role client (RLS blocks a client
+  from ever self-reporting `score`/`passed`). Wired `/study` and
+  `/study/assessments/[id]` to real data; `AssessmentRenderer` now persists
+  attempts on submit.
+  Filled a real gap found during this work: nothing previously rolled
+  per-lesson `user_progress` completion up to `enrollments` -- added that
+  rollup to `app/api/persistence/progress/route.ts` (via the existing
+  `has_completed_course()` RPC), since Quick Review's `next_quick_review_due_at`
+  has no trigger point without it.
+  Verified: `tsc --noEmit` clean; migration/RLS behavior confirmed live
+  against the real project by simulating an authenticated session in SQL
+  (`set local request.jwt.claims`) -- read access, the RLS block on
+  client-set `score`/`passed`, and the bookmark join all confirmed correct
+  against real rows, using temporary test data that was deleted afterward.
+  **Not verified**: the actual Next.js route handlers end-to-end, because
+  `SUPABASE_SERVICE_ROLE_KEY` is absent from this machine's `.env.local` --
+  `createServiceRoleSupabaseClient()` returns null locally, which would also
+  block the pre-existing `activity-attempts` grading route the same way.
+  This needs a real service-role key in the environment before the
+  write/grading paths can be considered live-tested.
