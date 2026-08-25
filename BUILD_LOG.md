@@ -88,3 +88,27 @@ Checkpoint record of completed work, for tracking builds and merge points.
   block the pre-existing `activity-attempts` grading route the same way.
   This needs a real service-role key in the environment before the
   write/grading paths can be considered live-tested.
+- `SUPABASE_SERVICE_ROLE_KEY` added to `.env.local`, unblocking the write
+  paths above. Verified end-to-end through the real dev server against a
+  temporary test user (removed afterward, alongside temporary test
+  assessments and scratch scripts): lesson completion correctly rolls the
+  enrollment to `completed` and sets `next_quick_review_due_at` at +30
+  days; exam attempts grade correctly server-side (mixed-correctness
+  attempt -> `score: 83.33, passed: true`, matching the hand-computed
+  expected value); quick-review attempts sample from the exam's pool,
+  stay ungated (`passed: null`), and reschedule the due date to +90 days,
+  correctly overwriting the completion rollup's value. Also untracked
+  `tsconfig.tsbuildinfo` (TypeScript's incremental-compile cache -- churns
+  on every `tsc` run regardless of code changes, doesn't belong in git)
+  and reverted an unrelated local `package-lock.json` lockfile-format diff
+  (no dependency actually changed, just a different local npm version's
+  serialization).
+- Dropped "IO" from every "Resona IO" reference in the live Resona
+  Foundations course, per user request (migration
+  `0014_resona_io_to_resona.sql`): the course description, Module 2's
+  title, and six `content_blocks` across Lessons 2.1/2.2 -- including the
+  text baked into one lesson's SVG diagram. Confirmed via `ilike` sweep
+  across every content table that nothing else in the live course
+  mentions "Resona IO"; zero hits remain after the migration. Left the
+  original v1 handoff doc under `Courses/Resona Foundations Course/`
+  untouched -- it's a historical planning record, not live content.
