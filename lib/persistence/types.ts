@@ -83,3 +83,15 @@ export type ActivityAttempt = {
   started_at: string;
   submitted_at: string | null;
 };
+
+export type AssessmentAttempt = {
+  id: string;
+  user_id: string;
+  assessment_id: string;
+  attempt_number: number;
+  responses: Record<string, QuestionResponse>;
+  score: number | null;
+  passed: boolean | null;
+  started_at: string;
+  submitted_at: string | null;
+};

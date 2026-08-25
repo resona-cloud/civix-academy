@@ -61,6 +61,141 @@ export type Database = {
           },
         ]
       }
+      assessment_attempts: {
+        Row: {
+          assessment_id: string
+          attempt_number: number
+          id: string
+          passed: boolean | null
+          responses: Json
+          score: number | null
+          started_at: string
+          submitted_at: string | null
+          user_id: string
+        }
+        Insert: {
+          assessment_id: string
+          attempt_number: number
+          id?: string
+          passed?: boolean | null
+          responses?: Json
+          score?: number | null
+          started_at?: string
+          submitted_at?: string | null
+          user_id: string
+        }
+        Update: {
+          assessment_id?: string
+          attempt_number?: number
+          id?: string
+          passed?: boolean | null
+          responses?: Json
+          score?: number | null
+          started_at?: string
+          submitted_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_attempts_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assessment_questions: {
+        Row: {
+          assessment_id: string
+          created_at: string
+          data: Json
+          explanation: string
+          id: string
+          points: number
+          position: number
+          prompt: string
+          question_type: Database["public"]["Enums"]["question_type"]
+          updated_at: string
+        }
+        Insert: {
+          assessment_id: string
+          created_at?: string
+          data?: Json
+          explanation?: string
+          id?: string
+          points?: number
+          position: number
+          prompt: string
+          question_type: Database["public"]["Enums"]["question_type"]
+          updated_at?: string
+        }
+        Update: {
+          assessment_id?: string
+          created_at?: string
+          data?: Json
+          explanation?: string
+          id?: string
+          points?: number
+          position?: number
+          prompt?: string
+          question_type?: Database["public"]["Enums"]["question_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_questions_assessment_id_fkey"
+            columns: ["assessment_id"]
+            isOneToOne: false
+            referencedRelation: "assessments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assessments: {
+        Row: {
+          assessment_type: Database["public"]["Enums"]["assessment_type"]
+          course_id: string
+          created_at: string
+          id: string
+          passing_score: number | null
+          question_count: number
+          status: Database["public"]["Enums"]["content_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assessment_type: Database["public"]["Enums"]["assessment_type"]
+          course_id: string
+          created_at?: string
+          id?: string
+          passing_score?: number | null
+          question_count?: number
+          status?: Database["public"]["Enums"]["content_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assessment_type?: Database["public"]["Enums"]["assessment_type"]
+          course_id?: string
+          created_at?: string
+          id?: string
+          passing_score?: number | null
+          question_count?: number
+          status?: Database["public"]["Enums"]["content_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_events: {
         Row: {
           actor_id: string | null
@@ -386,7 +521,9 @@ export type Database = {
           description: string
           estimated_minutes: number | null
           id: string
+          initial_review_interval_days: number
           position: number
+          repeat_review_interval_days: number
           slug: string
           status: Database["public"]["Enums"]["content_status"]
           title: string
@@ -398,7 +535,9 @@ export type Database = {
           description?: string
           estimated_minutes?: number | null
           id?: string
+          initial_review_interval_days?: number
           position?: number
+          repeat_review_interval_days?: number
           slug: string
           status?: Database["public"]["Enums"]["content_status"]
           title: string
@@ -410,7 +549,9 @@ export type Database = {
           description?: string
           estimated_minutes?: number | null
           id?: string
+          initial_review_interval_days?: number
           position?: number
+          repeat_review_interval_days?: number
           slug?: string
           status?: Database["public"]["Enums"]["content_status"]
           title?: string
@@ -434,6 +575,7 @@ export type Database = {
           course_id: string
           enrolled_at: string
           id: string
+          next_quick_review_due_at: string | null
           org_id: string
           status: Database["public"]["Enums"]["course_enrollment_status"]
           updated_at: string
@@ -446,6 +588,7 @@ export type Database = {
           course_id: string
           enrolled_at?: string
           id?: string
+          next_quick_review_due_at?: string | null
           org_id: string
           status?: Database["public"]["Enums"]["course_enrollment_status"]
           updated_at?: string
@@ -458,6 +601,7 @@ export type Database = {
           course_id?: string
           enrolled_at?: string
           id?: string
+          next_quick_review_due_at?: string | null
           org_id?: string
           status?: Database["public"]["Enums"]["course_enrollment_status"]
           updated_at?: string
@@ -532,6 +676,7 @@ export type Database = {
       }
       glossary_terms: {
         Row: {
+          category: string | null
           created_at: string
           definition: string
           id: string
@@ -542,6 +687,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category?: string | null
           created_at?: string
           definition: string
           id?: string
@@ -552,6 +698,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          category?: string | null
           created_at?: string
           definition?: string
           id?: string
@@ -720,6 +867,7 @@ export type Database = {
           description: string
           estimated_minutes: number | null
           id: string
+          is_check: boolean
           module_id: string
           position: number
           title: string
@@ -730,6 +878,7 @@ export type Database = {
           description?: string
           estimated_minutes?: number | null
           id?: string
+          is_check?: boolean
           module_id: string
           position: number
           title: string
@@ -740,6 +889,7 @@ export type Database = {
           description?: string
           estimated_minutes?: number | null
           id?: string
+          is_check?: boolean
           module_id?: string
           position?: number
           title?: string
@@ -1072,6 +1222,7 @@ export type Database = {
         Args: { target_course_id: string }
         Returns: boolean
       }
+      has_completed_course: { Args: { p_course_id: string }; Returns: boolean }
       has_role: {
         Args: { required_role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
@@ -1094,6 +1245,7 @@ export type Database = {
         | "sourcing_operator"
         | "developer"
         | "founder"
+      assessment_type: "exam" | "quick_review"
       attempt_status: "started" | "submitted" | "passed" | "failed"
       bookmark_target_type: "lesson_page" | "fieldbook_article" | "lab_scenario"
       certificate_status: "active" | "expired" | "revoked"
@@ -1115,6 +1267,14 @@ export type Database = {
       note_visibility: "private" | "instructors" | "reviewers"
       profile_status: "active" | "inactive" | "suspended"
       progress_status: "not_started" | "in_progress" | "completed"
+      question_type:
+        | "multiple_choice"
+        | "multiple_select"
+        | "true_false"
+        | "matching"
+        | "ordering"
+        | "fill_blank"
+        | "short_response"
       risk_severity: "low" | "medium" | "high"
       risk_status: "open" | "monitoring" | "resolved"
       submission_status:
@@ -1262,6 +1422,7 @@ export const Constants = {
         "developer",
         "founder",
       ],
+      assessment_type: ["exam", "quick_review"],
       attempt_status: ["started", "submitted", "passed", "failed"],
       bookmark_target_type: [
         "lesson_page",
@@ -1289,6 +1450,15 @@ export const Constants = {
       note_visibility: ["private", "instructors", "reviewers"],
       profile_status: ["active", "inactive", "suspended"],
       progress_status: ["not_started", "in_progress", "completed"],
+      question_type: [
+        "multiple_choice",
+        "multiple_select",
+        "true_false",
+        "matching",
+        "ordering",
+        "fill_blank",
+        "short_response",
+      ],
       risk_severity: ["low", "medium", "high"],
       risk_status: ["open", "monitoring", "resolved"],
       submission_status: ["draft", "submitted", "reviewed", "passed", "failed"],

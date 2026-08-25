@@ -78,6 +78,9 @@ export type Assessment = {
   status: "published";
   passing_score: number;
   questions: AssessmentQuestion[];
+  // Absent for the mock fallback (which behaves like an exam). When present,
+  // "quick_review" leaves grading ungated -- see AssessmentRenderer.
+  assessment_type?: "exam" | "quick_review";
 };
 
 export type QuestionScore = {
