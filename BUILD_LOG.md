@@ -112,3 +112,14 @@ Checkpoint record of completed work, for tracking builds and merge points.
   mentions "Resona IO"; zero hits remain after the migration. Left the
   original v1 handoff doc under `Courses/Resona Foundations Course/`
   untouched -- it's a historical planning record, not live content.
+- Authored the Resona Foundations course-end cumulative review (migration
+  `0015_resona_foundations_cumulative_review.sql`), per Decision 4 from
+  the Study Center handoff -- a real `exam`-type `assessments` row (80%
+  to pass, 12 freshly-worded questions spanning all four modules, 13
+  points) plus a `quick_review`-type row that samples 5 questions from
+  that same pool at attempt time and owns none of its own. Content stays
+  within the standing gate (no internal financial/competitive detail).
+  Verified live: both rows and all 12 questions are readable by an
+  enrolled user under real RLS. Study Center's exam/quick-review panels
+  now have real content to show; flashcards still have none, since
+  `glossary_terms` has zero published rows.
