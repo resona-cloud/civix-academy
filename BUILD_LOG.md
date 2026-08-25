@@ -123,3 +123,15 @@ Checkpoint record of completed work, for tracking builds and merge points.
   enrolled user under real RLS. Study Center's exam/quick-review panels
   now have real content to show; flashcards still have none, since
   `glossary_terms` has zero published rows.
+- Seeded 17 `glossary_terms` (migration
+  `0016_resona_foundations_glossary_terms.sql`) so the flashcard panel
+  has real content, grouped by category (Methodology, Values, Company &
+  Products, Culture, Growth) for the panel's client-side filter. Flagged
+  before seeding: `glossary_terms` has no `course_id` column -- it's a
+  single shared terminology source of truth across Fieldbook and Study
+  Center by design, not structurally scoped per course -- so these terms
+  are course-specific in content only (drawn directly from what
+  Foundations teaches), not enforced at the schema level. Worth a
+  revisit if/when a second course needs its own distinct glossary.
+  Verified live (17 rows, correct category counts) after retrying once
+  past a transient 502 from the MCP proxy.
