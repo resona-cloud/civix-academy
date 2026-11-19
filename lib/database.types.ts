@@ -677,6 +677,7 @@ export type Database = {
       glossary_terms: {
         Row: {
           category: string | null
+          course_id: string | null
           created_at: string
           definition: string
           id: string
@@ -688,6 +689,7 @@ export type Database = {
         }
         Insert: {
           category?: string | null
+          course_id?: string | null
           created_at?: string
           definition: string
           id?: string
@@ -699,6 +701,7 @@ export type Database = {
         }
         Update: {
           category?: string | null
+          course_id?: string | null
           created_at?: string
           definition?: string
           id?: string
@@ -708,7 +711,15 @@ export type Database = {
           term?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "glossary_terms_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       lab_scenarios: {
         Row: {
