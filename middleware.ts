@@ -10,7 +10,18 @@ export async function middleware(request: NextRequest) {
   const { response, user, mockMode } = await refreshSupabaseSession(request);
   const isApiRoute = request.nextUrl.pathname.startsWith("/api/");
   const isPublicRoute = isApiRoute || publicPrefixes.some((prefix) => request.nextUrl.pathname === prefix || request.nextUrl.pathname.startsWith(`${prefix}/`));
-  if (!mockMode && !isPublicRoute && !user) {
+  // Mock mode (no Supabase env vars) is a local-dev convenience only. In any
+  // other environment a missing config fails closed: nothing is served without a session.
+  const allowMock = mockMode && process.env.NODE_ENV === "development";
+  const isLoginRoute = request.nextUrl.pathname === "/login";
+  if (user && isLoginRoute) {
+    const requested = request.nextUrl.searchParams.get("next");
+    const target = request.nextUrl.clone();
+    target.pathname = requested?.startsWith("/") && !requested.startsWith("//") ? requested.split("?")[0] : "/";
+    target.search = "";
+    return NextResponse.redirect(target);
+  }
+  if (!allowMock && !isPublicRoute && !user) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
     loginUrl.searchParams.set("next", `${request.nextUrl.pathname}${request.nextUrl.search}`);

@@ -26,6 +26,8 @@ function initialsFor(displayName: string | undefined) {
 }
 
 export function AppShell({ children, currentUser }: { children: ReactNode; currentUser: CurrentAppUser | null }) {
+  // Signed-out visitors only ever see the bare page (the login screen): no sidebar, no nav.
+  if (!currentUser) return <>{children}</>;
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">
       <aside className="border-b border-slate-800 bg-slate-950 px-5 py-5 text-white lg:min-h-screen lg:border-b-0 lg:border-r">
